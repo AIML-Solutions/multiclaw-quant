@@ -1,0 +1,31 @@
+# OS/editor
+.DS_Store
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Local secrets
+.env
+infra/.env
+
+# LEAN heavy data/artifacts
+lean-cli/data/
+lean-cli/backtests/
+lean-cli/.cache/
+lean/data/
+lean/logs/
+
+# Node
+services/blockchain/hardhat/node_modules/
+services/blockchain/hardhat/artifacts/
+services/blockchain/hardhat/cache/
+
+# IDE
+**/.idea/
+**/.vscode/
+
+# Misc
+*.log
