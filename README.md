@@ -1,6 +1,6 @@
 # MultiClaw-Quant-Tools 📈🦞
 
-[![Quant Quality Gate](https://github.com/AIML-Solutions/multiclaw-quant/actions/workflows/ci.yml/badge.svg)](https://github.com/AIML-Solutions/multiclaw-quant/actions/workflows/ci.yml)
+[![Quant Quality Gate](https://github.com/AIML-Solutions/MultiClaw-quant-tools/actions/workflows/ci.yml/badge.svg)](https://github.com/AIML-Solutions/MultiClaw-quant-tools/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-22c55e.svg)](LICENSE)
 
 **MultiClaw-Quant-Tools** is AIML Solutions’ quantitative engineering lane for market data, derivatives analytics, and strategy infrastructure.
