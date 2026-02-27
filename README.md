@@ -1,47 +1,61 @@
-# Quant Division Scaffold
+# MultiClaw Quant
 
-This workspace is the local QuantConnect + LEAN + data engineering stack for OpenClaw.
+**MultiClaw Quant** is the quantitative engineering lane for AIML Solutions.
 
-## Goals
-- Run LEAN backtests/live workflows on this VPS.
-- Ingest market data streams into PostgreSQL.
-- Expose data via GraphQL (real-time capable) and JSON-RPC.
-- Validate pipeline contracts using Pydantic.
-- Support vectorized research/search workflows.
-- Add blockchain analysis + Solidity/Hardhat section for on-chain quant tooling.
+It combines QuantConnect LEAN, structured data ingestion, options/greeks analytics, and query interfaces for downstream agents and dashboards.
 
-## Current Status
-- LEAN CLI installed in user path (`~/.local/bin/lean`).
-- Docker available.
-- LEAN auth not completed yet (requires QuantConnect user id + API token).
-- PostgreSQL/GraphQL stack scaffolded via docker-compose templates.
+## What this repo delivers
 
-## Directory Map
-- `lean/` — LEAN project/code/data layout
-- `infra/` — docker-compose + DB bootstrap SQL
-- `services/validation/` — Pydantic schema layer
-- `services/rpc/` — JSON-RPC interface contracts
-- `services/mcp/` — MCP integration notes/config stubs
-- `services/options-greeks/` — options pricing framework notes
-- `services/blockchain/` — smart-contract + chain-analysis area
-- `docs/` — architecture and runbooks
+- LEAN backtest/research execution workflows
+- Market data ingestion and validation (Pydantic/Pandera-ready)
+- PostgreSQL schema for bars, greeks snapshots, and backtest summaries
+- GraphQL access via Hasura
+- JSON-RPC + MCP integration path for agent tooling
+- Adjacent blockchain quant lane (Hardhat + chain analysis staging)
 
-## First Commands (manual)
+## Current status
+
+- LEAN authenticated and baseline strategy backtests validated
+- Quant infra stack running: Postgres + Hasura + Qdrant
+- Backtest summary ingestion into Postgres verified
+- GraphQL query path validated
+- Market-hours and data-source guide documented
+
+## Key docs
+
+- [`docs/architecture.md`](docs/architecture.md)
+- [`docs/runbook.md`](docs/runbook.md)
+- [`docs/data-sources-and-market-hours.md`](docs/data-sources-and-market-hours.md)
+- [`docs/graphql-examples.md`](docs/graphql-examples.md)
+
+## Quick start
+
 ```bash
-# Add LEAN to your shell path (once)
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-
-# Authenticate LEAN (interactive)
+# 1) LEAN auth
 lean login
 lean whoami
-```
 
-## Bring up core infra
-```bash
-cd projects/quantconnect/infra
+# 2) Start core quant infra
+cd infra
 cp .env.example .env
 docker compose up -d
+
+# 3) Run a local backtest (example)
+cd ../lean-cli
+lean backtest "baseline-strategy" --no-update
 ```
 
-Then continue with `docs/architecture.md` and `docs/runbook.md`.
+## Core directories
+
+- `lean-cli/` — LEAN projects and backtest outputs
+- `lean/` — scripts/utilities for setup and ingestion
+- `infra/` — docker compose and SQL bootstrap
+- `services/validation/` — data model contracts
+- `services/rpc/` — JSON-RPC service scaffold
+- `services/mcp/` — MCP integration notes
+- `services/options-greeks/` — pricing/greeks framework notes
+- `services/blockchain/` — chain analytics/dev lane linkage
+
+## License
+
+MIT — see [LICENSE](LICENSE).
