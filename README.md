@@ -1,60 +1,67 @@
-# MultiClaw Quant
+# MultiClaw Quant 📈🦞
 
-**MultiClaw Quant** is the quantitative engineering lane for AIML Solutions.
+[![Quant Quality Gate](https://github.com/AIML-Solutions/multiclaw-quant/actions/workflows/ci.yml/badge.svg)](https://github.com/AIML-Solutions/multiclaw-quant/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-22c55e.svg)](LICENSE)
 
-It combines QuantConnect LEAN, structured data ingestion, options/greeks analytics, and query interfaces for downstream agents and dashboards.
+**MultiClaw Quant** is AIML Solutions’ quantitative engineering lane for market data, derivatives analytics, and strategy infrastructure.
 
-## What this repo delivers
+## What this repo does
 
-- LEAN backtest/research execution workflows
-- Market data ingestion and validation (Pydantic/Pandera-ready)
-- PostgreSQL schema for bars, greeks snapshots, and backtest summaries
-- GraphQL access via Hasura
-- JSON-RPC + MCP integration path for agent tooling
-- Adjacent blockchain quant lane (Hardhat + chain analysis staging)
+- Executes LEAN backtests and strategy research workflows
+- Ingests structured market/derivatives outputs into PostgreSQL
+- Exposes query surfaces through GraphQL and JSON-RPC
+- Provides hooks for MCP-enabled agent tooling
+- Supports options/greeks analytics and scenario research
 
-## Current status
+## Current implementation highlights
 
-- LEAN authenticated and baseline strategy backtests validated
-- Quant infra stack running: Postgres + Hasura + Qdrant
-- Backtest summary ingestion into Postgres verified
-- GraphQL query path validated
-- Market-hours and data-source guide documented
+- LEAN authenticated with baseline backtest validated
+- Postgres + Hasura + Qdrant stack operational
+- Backtest summary ingestion to Postgres verified
+- GraphQL query path verified
+- Market-hours and data-source mapping documented
 
-## Key docs
+## Key documents
 
-- [`docs/architecture.md`](docs/architecture.md)
-- [`docs/runbook.md`](docs/runbook.md)
-- [`docs/data-sources-and-market-hours.md`](docs/data-sources-and-market-hours.md)
-- [`docs/graphql-examples.md`](docs/graphql-examples.md)
+- [docs/architecture.md](docs/architecture.md)
+- [docs/runbook.md](docs/runbook.md)
+- [docs/data-sources-and-market-hours.md](docs/data-sources-and-market-hours.md)
+- [docs/DATA_PIPELINE_SPEC.md](docs/DATA_PIPELINE_SPEC.md)
+- [docs/OPTIONS_GREEKS_PLAYBOOK.md](docs/OPTIONS_GREEKS_PLAYBOOK.md)
+- [docs/graphql-examples.md](docs/graphql-examples.md)
+- [docs/ROADMAP.md](docs/ROADMAP.md)
 
 ## Quick start
 
 ```bash
-# 1) LEAN auth
+# LEAN auth
 lean login
 lean whoami
 
-# 2) Start core quant infra
+# bring up infra
 cd infra
 cp .env.example .env
 docker compose up -d
 
-# 3) Run a local backtest (example)
+# run baseline local backtest
 cd ../lean-cli
 lean backtest "baseline-strategy" --no-update
 ```
 
-## Core directories
+## Directory map
 
-- `lean-cli/` — LEAN projects and backtest outputs
-- `lean/` — scripts/utilities for setup and ingestion
-- `infra/` — docker compose and SQL bootstrap
-- `services/validation/` — data model contracts
-- `services/rpc/` — JSON-RPC service scaffold
+- `lean-cli/` — LEAN projects + generated backtests
+- `lean/` — setup + ingestion scripts
+- `infra/` — compose + schema bootstrap
+- `services/validation/` — Pydantic models
+- `services/rpc/` — JSON-RPC scaffold
 - `services/mcp/` — MCP integration notes
-- `services/options-greeks/` — pricing/greeks framework notes
-- `services/blockchain/` — chain analytics/dev lane linkage
+- `services/options-greeks/` — pricing framework notes
+- `services/blockchain/` — cross-lane chain analytics bridge
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

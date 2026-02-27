@@ -1,0 +1,44 @@
+name: Quant Quality Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Baseline files
+        run: |
+          test -f README.md
+          test -f docs/architecture.md
+          test -f docs/runbook.md
+          test -f docs/data-sources-and-market-hours.md
+
+      - name: Python syntax check
+        run: |
+          python - <<'PY'
+          import subprocess
+          files = subprocess.check_output(['git','ls-files','*.py'], text=True).splitlines()
+          for f in files:
+              source = open(f, 'r', encoding='utf-8').read()
+              compile(source, f, 'exec')
+          print(f"syntax-checked {len(files)} python files")
+          PY
+
+      - name: Secret hygiene scan
+        run: |
+          if git ls-files -z | xargs -0 -r grep -nE '(BEGIN (RSA|OPENSSH|EC) PRIVATE KEY|sk-[A-Za-z0-9]{20,}|gh[pousr]_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16})'; then
+            echo 'Potential secret-like material detected.'
+            exit 1
+          fi
