@@ -4,6 +4,7 @@ import os
 from datetime import datetime, timezone
 from urllib import parse, request
 import psycopg
+from validation_models import MarketBarIn
 
 DB_URL = os.getenv("DATABASE_URL", "postgresql://quant:quant_dev_change_me@127.0.0.1:5432/quant")
 COINS = [c.strip().lower() for c in os.getenv("CRYPTO_COINS", "bitcoin,ethereum,solana").split(",") if c.strip()]
@@ -47,6 +48,10 @@ def main():
                     """,
                     (symbol, ts, price, mcap, vol, json.dumps(r)),
                 )
+                try:
+                    v = MarketBarIn(symbol=symbol, ts=ts, open=price, high=price, low=price, close=price, volume=vol or 0, source='coingecko')
+                except Exception:
+                    continue
                 cur.execute(
                     """
                     insert into market.bars(symbol, ts, open, high, low, close, volume, source)
@@ -54,7 +59,7 @@ def main():
                     on conflict (symbol, ts) do update
                     set close=excluded.close, volume=excluded.volume, source=excluded.source
                     """,
-                    (symbol, ts, price, price, price, price, vol or 0),
+                    (v.symbol, v.ts, v.open, v.high, v.low, v.close, v.volume),
                 )
                 written += 1
             cur.execute("update ingestion.runs set status='success', completed_at=now(), rows_written=%s where id=%s", (written, run_id))

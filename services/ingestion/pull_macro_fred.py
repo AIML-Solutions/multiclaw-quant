@@ -5,6 +5,7 @@ import os
 from datetime import datetime, timezone
 from urllib import request
 import psycopg
+from validation_models import MarketBarIn
 
 DB_URL = os.getenv("DATABASE_URL", "postgresql://quant:quant_dev_change_me@127.0.0.1:5432/quant")
 FRED_SERIES = [s.strip().upper() for s in os.getenv("FRED_SERIES", "SOFR,MORTGAGE30US,DGS10,DGS2,VIXCLS").split(",") if s.strip()]
@@ -34,6 +35,10 @@ def main():
                 ts, val = fetch_latest(s)
                 if ts is None:
                     continue
+                try:
+                    v = MarketBarIn(symbol=s, ts=ts, open=val, high=val, low=val, close=val, volume=0, source='fred')
+                except Exception:
+                    continue
                 cur.execute(
                     """
                     insert into market.bars(symbol, ts, open, high, low, close, volume, source)
@@ -41,7 +46,7 @@ def main():
                     on conflict (symbol, ts) do update
                     set close=excluded.close, source=excluded.source
                     """,
-                    (s, ts, val, val, val, val),
+                    (v.symbol, v.ts, v.open, v.high, v.low, v.close),
                 )
                 written += 1
             cur.execute("update ingestion.runs set status='success', completed_at=now(), rows_written=%s where id=%s", (written, run_id))

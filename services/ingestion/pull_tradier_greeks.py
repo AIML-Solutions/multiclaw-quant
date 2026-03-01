@@ -4,6 +4,7 @@ import os
 from datetime import datetime, timezone
 from urllib import parse, request
 import psycopg
+from validation_models import GreeksIn
 
 DB_URL = os.getenv("DATABASE_URL", "postgresql://quant:quant_dev_change_me@127.0.0.1:5432/quant")
 TRADIER_BASE = os.getenv("TRADIER_SANDBOX_BASE_URL") or os.getenv("TRADIER_PAPER_BASE_URL") or "https://sandbox.tradier.com/v1"
@@ -55,6 +56,22 @@ def main():
 
                 for o in options[:150]:
                     greeks = o.get("greeks") or {}
+                    try:
+                        g = GreeksIn(
+                            underlying=sym,
+                            option_symbol=o.get("symbol") or "",
+                            ts=now,
+                            price=o.get("last") or o.get("bid") or o.get("ask") or 0,
+                            iv=greeks.get("mid_iv") or greeks.get("smv_vol"),
+                            delta=greeks.get("delta"),
+                            gamma=greeks.get("gamma"),
+                            vega=greeks.get("vega"),
+                            theta=greeks.get("theta"),
+                            rho=greeks.get("rho"),
+                            model='tradier'
+                        )
+                    except Exception:
+                        continue
                     cur.execute(
                         """
                         insert into options.greeks_snapshot(
@@ -64,9 +81,9 @@ def main():
                         set price=excluded.price, iv=excluded.iv, delta=excluded.delta, gamma=excluded.gamma,
                             vega=excluded.vega, theta=excluded.theta, rho=excluded.rho, model=excluded.model
                         """,
-                        (sym, o.get("symbol"), now, o.get("last") or o.get("bid") or o.get("ask"),
-                         greeks.get("mid_iv") or greeks.get("smv_vol"), greeks.get("delta"), greeks.get("gamma"),
-                         greeks.get("vega"), greeks.get("theta"), greeks.get("rho")),
+                        (g.underlying, g.option_symbol, g.ts, g.price,
+                         g.iv, g.delta, g.gamma,
+                         g.vega, g.theta, g.rho),
                     )
                     written += 1
 

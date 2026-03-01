@@ -5,6 +5,7 @@ import os
 from datetime import datetime, timezone
 from urllib import request
 import psycopg
+from validation_models import MarketBarIn
 
 DB_URL = os.getenv("DATABASE_URL", "postgresql://quant:quant_dev_change_me@127.0.0.1:5432/quant")
 SYMBOLS = [s.strip().upper() for s in os.getenv("EQUITY_SYMBOLS", "SPY,QQQ,AAPL,MSFT").split(",") if s.strip()]
@@ -44,6 +45,10 @@ def main():
                 row = fetch_stooq_daily(sym)
                 if not row:
                     continue
+                try:
+                    v = MarketBarIn(**{**row, "source": "stooq"})
+                except Exception:
+                    continue
                 cur.execute(
                     """
                     insert into market.bars(symbol, ts, open, high, low, close, volume, source)
@@ -51,7 +56,7 @@ def main():
                     on conflict (symbol, ts) do update
                     set open=excluded.open, high=excluded.high, low=excluded.low, close=excluded.close, volume=excluded.volume, source=excluded.source
                     """,
-                    (row["symbol"], row["ts"], row["open"], row["high"], row["low"], row["close"], row["volume"]),
+                    (v.symbol, v.ts, v.open, v.high, v.low, v.close, v.volume),
                 )
                 written += 1
 

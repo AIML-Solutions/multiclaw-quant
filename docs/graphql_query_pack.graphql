@@ -60,3 +60,20 @@ query SelectionSetV1Dashboard {
     avg_theta
   }
 }
+
+query SelectionSetV1Executive {
+  analytics_selection_set_v1_executive(order_by: [{block: asc}, {symbol: asc}]) {
+    block
+    symbol
+    source
+    last_ts
+    last_close
+    last_volume
+  }
+  analytics_ingestion_freshness_sla(order_by: [{source: asc}]) {
+    source
+    last_run_at
+    minutes_since_last_run
+    sla_status
+  }
+}
