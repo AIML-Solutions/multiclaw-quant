@@ -1,0 +1,31 @@
+{
+  "as_of": "2026-03-01T04:30:00Z",
+  "account": {
+    "status": "ACTIVE",
+    "base_currency": "USD",
+    "equity": 100000
+  },
+  "positions": [
+    {
+      "symbol": "SPY",
+      "qty": 10,
+      "avg_entry_price": 502.11,
+      "market_price": 503.02,
+      "market_value": 5030.20,
+      "unrealized_pl": 9.10
+    }
+  ],
+  "orders": [
+    {
+      "id": "alp-paper-ord-001",
+      "symbol": "SPY",
+      "side": "buy",
+      "type": "market",
+      "status": "filled",
+      "qty": 10,
+      "filled_qty": 10,
+      "submitted_at": "2026-03-01T04:20:00Z",
+      "updated_at": "2026-03-01T04:20:02Z"
+    }
+  ]
+}
