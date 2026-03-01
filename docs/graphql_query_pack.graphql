@@ -41,3 +41,22 @@ query LatestBrokerPositions {
     as_of
   }
 }
+
+query SelectionSetV1Dashboard {
+  analytics_selection_set_v1_latest_bars(order_by: [{symbol: asc}]) {
+    symbol
+    source
+    last_ts
+    last_close
+    last_volume
+  }
+  analytics_selection_set_v1_options_greeks(order_by: [{underlying: asc}]) {
+    underlying
+    contracts
+    last_ts
+    avg_delta
+    avg_gamma
+    avg_vega
+    avg_theta
+  }
+}
