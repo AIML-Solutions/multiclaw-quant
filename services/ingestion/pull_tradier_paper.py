@@ -47,7 +47,12 @@ def ensure_account_id():
 
 
 def normalize_positions(data):
-    raw = data.get("positions", {}).get("position")
+    if not isinstance(data, dict):
+        return []
+    positions_obj = data.get("positions", {})
+    if not isinstance(positions_obj, dict):
+        return []
+    raw = positions_obj.get("position")
     if not raw:
         return []
     if isinstance(raw, dict):
@@ -67,7 +72,12 @@ def normalize_positions(data):
 
 
 def normalize_orders(data):
-    raw = data.get("orders", {}).get("order")
+    if not isinstance(data, dict):
+        return []
+    orders_obj = data.get("orders", {})
+    if not isinstance(orders_obj, dict):
+        return []
+    raw = orders_obj.get("order")
     if not raw:
         return []
     if isinstance(raw, dict):

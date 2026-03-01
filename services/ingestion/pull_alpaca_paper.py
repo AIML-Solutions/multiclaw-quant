@@ -21,8 +21,15 @@ ALPACA_ACCOUNT_ID = os.getenv("ALPACA_ACCOUNT_ID", "alpaca-paper-default")
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://quant:quant_dev_change_me@127.0.0.1:5432/quant")
 
 
+def normalized_base(base: str) -> str:
+    b = (base or "").strip().replace("export", "").strip()
+    if b.endswith("/v2"):
+        b = b[:-3]
+    return b.rstrip("/")
+
+
 def get(path, query=None):
-    url = ALPACA_BASE.rstrip("/") + path
+    url = normalized_base(ALPACA_BASE) + path
     if query:
         url += "?" + parse.urlencode(query)
     req = request.Request(url)

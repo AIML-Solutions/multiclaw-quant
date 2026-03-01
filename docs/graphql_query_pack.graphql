@@ -1,0 +1,43 @@
+# GoS Phase 2 Query Pack
+
+query IngestionHealth {
+  analytics_ingestion_health(order_by: {last_run_at: desc}) {
+    source
+    success_runs
+    failed_runs
+    avg_rows_written
+    last_run_at
+  }
+}
+
+query StrategyLeaderboard {
+  analytics_strategy_leaderboard(order_by: {avg_sharpe: desc}) {
+    project
+    runs
+    avg_sharpe
+    avg_drawdown_pct
+    avg_net_profit_pct
+    last_run_at
+  }
+}
+
+query OpportunityFunnel {
+  analytics_opportunity_funnel {
+    status
+    count
+    avg_confidence
+    total_expected_value_usd
+  }
+}
+
+query LatestBrokerPositions {
+  brokerage_positions(order_by: {as_of: desc}, limit: 20) {
+    provider
+    account_id
+    symbol
+    qty
+    market_value
+    unrealized_pl
+    as_of
+  }
+}
