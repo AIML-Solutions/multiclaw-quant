@@ -7,8 +7,8 @@ from datetime import datetime, timezone
 from urllib import request, parse
 
 ALPACA_BASE = os.getenv("ALPACA_PAPER_BASE_URL", "https://paper-api.alpaca.markets")
-ALPACA_KEY = os.getenv("ALPACA_API_KEY")
-ALPACA_SECRET = os.getenv("ALPACA_API_SECRET")
+ALPACA_KEY = os.getenv("ALPACA_API_KEY") or os.getenv("ALPACA_LIVE_KEY")
+ALPACA_SECRET = os.getenv("ALPACA_API_SECRET") or os.getenv("ALPACA_LIVE_SECRET")
 ALPACA_ACCOUNT_ID = os.getenv("ALPACA_ACCOUNT_ID", "alpaca-paper-default")
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://quant:quant_dev_change_me@127.0.0.1:5432/quant")
 

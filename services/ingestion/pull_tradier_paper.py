@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from urllib import request
 
 TRADIER_BASE = os.getenv("TRADIER_PAPER_BASE_URL", "https://sandbox.tradier.com/v1")
-TRADIER_TOKEN = os.getenv("TRADIER_API_TOKEN")
+TRADIER_TOKEN = os.getenv("TRADIER_API_TOKEN") or os.getenv("TRADIER_SANDBOX_TOKEN") or os.getenv("TRADIER_LIVE_TOKEN")
 TRADIER_ACCOUNT_ID = os.getenv("TRADIER_ACCOUNT_ID")
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://quant:quant_dev_change_me@127.0.0.1:5432/quant")
 
