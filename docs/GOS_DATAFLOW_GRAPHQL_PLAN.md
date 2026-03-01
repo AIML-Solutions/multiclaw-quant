@@ -1,7 +1,7 @@
-# GoS v0.1 — Dataflow + GraphQL Integration Plan
+# McOS v0.1 — Dataflow + GraphQL Integration Plan
 
-## GoS meaning
-GoS = **GetRich Operating System**.
+## McOS meaning
+McOS = **McOS MultiClaw Operating System**.
 
 ## Objective
 Unify market/broker/backtest/intel/job data into PostgreSQL and expose it through Hasura GraphQL for queryable automation.
@@ -9,7 +9,7 @@ Unify market/broker/backtest/intel/job data into PostgreSQL and expose it throug
 ## What is now live
 - PostgreSQL + Hasura + Qdrant running in `infra/docker-compose.yml`
 - Backtest table: `backtests.run_summary`
-- GoS tables: `gos.*`
+- McOS tables: `gos.*`
 - Broker ingestion tables: `brokerage.*` + `ingestion.runs`
 - Backtest + ingest script: `lean/scripts/run_backtest_and_ingest.sh`
 - Snapshot ingestion script: `services/ingestion/ingest_broker_snapshot.py`

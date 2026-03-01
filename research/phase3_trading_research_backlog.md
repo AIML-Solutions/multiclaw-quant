@@ -1,7 +1,7 @@
 # Phase 3 Research Backlog — Trading Opportunities & Algo Codebases
 
 ## Objective
-Continuously source, vet, and integrate high-signal strategy ideas + production-grade algorithm code into GoS.
+Continuously source, vet, and integrate high-signal strategy ideas + production-grade algorithm code into McOS.
 
 ## Evaluation rubric (must pass)
 1. Reproducible historical backtest with transparent assumptions

@@ -1,4 +1,4 @@
-# GoS Phase 2 Query Pack
+# McOS Phase 2 Query Pack
 
 query IngestionHealth {
   analytics_ingestion_health(order_by: {last_run_at: desc}) {
